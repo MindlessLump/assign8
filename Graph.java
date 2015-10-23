@@ -8,15 +8,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+ * Class representation of a graph, with vertices and edges
+ * 
+ * @author Erik Martin and Nick Porter
+ */
 public class Graph {
 	
-	private Map<String, Vertex> vertices;
-	private boolean directed = false;
+	private Map<String, Vertex> vertices; //HashMap of the vertices in the graph
+	private boolean directed; //Whether the graph is directed (true) or undirected (false)
 	
+	/**
+	 * Creates a new graph
+	 */
 	public Graph() {
 		vertices = new HashMap<String, Vertex>();
+		directed = true;
 	}
 	
+	/**
+	 * Adds an edge between the two named vertices (from the first to the second, if the graph is directed)
+	 * If either vertex does not yet exist, that vertex will be created as well
+	 * 
+	 * @param name1 The name of the first vertex
+	 * @param name2 The name of the second vertex
+	 */
 	public void addEdge(String name1, String name2) {
 		//Create the first vertex
 		Vertex vertex1;
@@ -40,6 +56,13 @@ public class Graph {
 			vertex2.addEdge(vertex1);
 	}
 	
+	/**
+	 * Determines whether there is a path from one vertex to another
+	 * 
+	 * @param name1 The name of the first vertex
+	 * @param name2 The name of the second vertex
+	 * @return Whether there is a path from the first vertex to the second vertex, as a boolean
+	 */
 	public boolean thereIsAPath(String name1, String name2) {
 		//Check to see if the vertices are in our collection
 		if(!vertices.containsKey(name1) || !vertices.containsKey(name2))
@@ -51,6 +74,7 @@ public class Graph {
 		Vertex v = vertices.get(name1);
 		verticesToBeVisited.offer(v);
 		
+		//While there are more vertices to check, do so
 		while(!verticesToBeVisited.isEmpty()) {
 			v = verticesToBeVisited.poll();
 			verticesAlreadyVisited.add(v);
@@ -67,14 +91,26 @@ public class Graph {
 		return false;
 	}
 	
+	/**
+	 * Set whether the graph is a directed one
+	 * @param d A boolean determining whether the graph is directed
+	 */
 	public void setDirected(boolean d) {
 		directed = d;
 	}
 	
+	/**
+	 * Returns whether the graph is directed
+	 * @return A boolean determining whether the graph is directed
+	 */
 	public boolean isDirected() {
 		return directed;
 	}
 	
+	/**
+	 * Returns a Map of the vertices in the graph
+	 * @return The vertices in the graph, as a Map
+	 */
 	public Map<String, Vertex> vertices() {
 		return vertices;
 	}

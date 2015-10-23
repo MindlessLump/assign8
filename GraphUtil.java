@@ -19,15 +19,12 @@ import java.util.Scanner;
 public class GraphUtil {
 
   /**
-   * Performs a topological sort of the vertices in a directed acyclic graph.
-   * (See Lecture 14 for the algorithm.)
+   * Performs a topological sort of the vertices in a directed acyclic graph. (See Lecture 14 for the algorithm.)
    * 
-   * Throws an UnsupportedOperationException if the graph is undirected or
-   * cyclic.
+   * Throws an UnsupportedOperationException if the graph is undirected or cyclic.
    * 
    * @param filename
-   *          -- Name of a file in DOT format, which specifies the graph to be
-   *          sorted.
+   *          -- Name of a file in DOT format, which specifies the graph to be sorted.
    * @return a list of the vertex names in sorted order
    */
   public static List<String> topologicalSort(String filename) {
@@ -37,22 +34,18 @@ public class GraphUtil {
   }
 
   /**
-   * Performs a breadth-first search of a graph to determine the shortest path
-   * from a starting vertex to an ending vertex.
+   * Performs a breadth-first search of a graph to determine the shortest path from a starting vertex to an ending vertex.
    * (See Lecture 14 for the algorithm.)
    * 
-   * Throws an UnsupportedOperationException if the graph is undirected or if
-   * the starting or ending vertex does not exist in the graph.
+   * Throws an UnsupportedOperationException if the graph is undirected or if the starting or ending vertex does not exist in the graph.
    * 
    * @param filename
-   *          -- Name of a file in DOT format, which specifies the graph to be
-   *          sorted.
+   *          -- Name of a file in DOT format, which specifies the graph to be sorted.
    * @param start
    *          -- Name of the starting vertex in the path.
    * @param end
    *          -- Name of the ending vertex in the path.
-   * @return a list of the vertices that make up the shortest path from the
-   *         starting vertex (inclusive) to the ending vertex (inclusive).
+   * @return a list of the vertices that make up the shortest path from the starting vertex (inclusive) to the ending vertex (inclusive).
    */
   	public static List<String> breadthFirstSearch(String filename, String start, String end) {
   		//Generate a graph from the file
@@ -101,9 +94,8 @@ public class GraphUtil {
   	}
 
   /**
-   * Builds a graph according to the edges specified in the given DOT file
-   * (e.g., "a -- b" or "a -> b"). Accepts directed ("digraph") or undirected
-   * ("graph") graphs.
+   * Builds a graph according to the edges specified in the given DOT file (e.g., "a -- b" or "a -> b").
+   * Accepts directed ("digraph") or undirected ("graph") graphs.
    * 
    * Accepts many valid DOT files (see examples posted with assignment).
    * --accepts \\-style comments 
