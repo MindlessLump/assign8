@@ -7,16 +7,50 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Scanner;
 
 /**
  * Utility class containing methods for operating on graphs. 
  *
- * @author Erin Parker & ??
+ * @author Erin Parker & Erik Martin & Nick Porter
  */
 public class GraphUtil {
+	
+	public static void main(String[] args) {
+		
+		// build a sample graph
+		Graph g = new Graph();
+
+		g.addEdge("V1", "V3");
+		g.addEdge("V1", "V4");
+		g.addEdge("V2", "V4");
+		g.addEdge("V2", "V1");
+		g.addEdge("V4", "V5");
+		g.addEdge("V5", "V3");
+		g.addEdge("V6", "V7");
+
+		g.generateDotFile("graph.dot");
+
+		// build another sample graph
+		g = new Graph();
+		g.setDirected(false);
+		g.addEdge("0", "1");
+		g.addEdge("0", "2");
+		g.addEdge("0", "7");
+		g.addEdge("1", "2");
+		g.addEdge("2", "3");
+		g.addEdge("3", "4");
+		g.addEdge("3", "5");
+		g.addEdge("3", "6");
+		g.addEdge("4", "5");
+		g.addEdge("5", "6");
+		g.addEdge("7", "1");
+		g.addEdge("7", "6");
+
+		g.generateDotFile("graph2.dot");
+	}
+	
 
   /**
    * Performs a topological sort of the vertices in a directed acyclic graph. (See Lecture 14 for the algorithm.)
@@ -90,7 +124,7 @@ public class GraphUtil {
 					verticesToBeVisited.offer(v);
 			}
 		}
-		return false;
+		return new ArrayList<String>();
   	}
 
   /**
@@ -172,4 +206,5 @@ public class GraphUtil {
     s.close();
     return g;
   }
+  
 }

@@ -1,5 +1,7 @@
 package assign8;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -113,5 +115,49 @@ public class Graph {
 	 */
 	public Map<String, Vertex> vertices() {
 		return vertices;
+	}
+	
+	/**
+	 * Generates a .dot file based on the this graph. 
+	 * @param filename name of the filed to be created and saved
+	 */
+	public void generateDotFile(String filename) {
+		
+		// default support directed graph
+		String edgeOperator = "--";
+		String graphType = "graph";
+		
+		if (isDirected()) {
+			edgeOperator = "->";
+			graphType = "digraph";
+		}
+		
+		try {
+			PrintWriter out = new PrintWriter(filename);
+			out.println(graphType + " G {");
+
+			if(vertices.isEmpty())
+				out.println("");
+			else {
+				List<Vertex> alreadyVisited = new LinkedList<Vertex>();
+
+				for(Vertex v : vertices.values()) {
+					Iterator<Edge> edges = v.edges();
+					while(edges.hasNext()) {
+						Vertex x = edges.next().getNext();
+
+						if(!alreadyVisited.contains(x))
+							out.println("\t\"" + v.getName() + "\"" + edgeOperator + "\"" + x.getName() + "\"");
+					}
+					alreadyVisited.add(v);
+				}
+			}
+
+			out.println("}");
+			out.close();
+		}
+		catch(IOException e) {
+			System.out.println(e);
+		}
 	}
 }
