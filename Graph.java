@@ -114,7 +114,7 @@ public class Graph {
 	 * @return The vertices in the graph, as a Map
 	 */
 	public Map<String, Vertex> vertices() {
-		return vertices;
+		return new HashMap<String, Vertex>(vertices);
 	}
 	
 	/**
