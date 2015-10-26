@@ -90,6 +90,9 @@ public class GraphUtil {
 			Iterator<Edge> iter = x.edges();
 			while(iter.hasNext()) {
 				Vertex w = iter.next().getNext();
+				//Make sure the graph is not cyclic
+				if(verticesAlreadyVisited.contains(w))
+					throw new UnsupportedOperationException("Graph is cyclic.");
 				w.setInDegree(w.getInDegree()-1);
 				if(w.getInDegree() == 0)
 					verticesToBeVisited.offer(w);
