@@ -3,6 +3,7 @@ package assign8;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,11 +62,47 @@ public class GraphUtil {
    *          -- Name of a file in DOT format, which specifies the graph to be sorted.
    * @return a list of the vertex names in sorted order
    */
-  public static List<String> topologicalSort(String filename) {
-    // FILL IN -- do not return null
-
-    return null;
-  }
+	public static List<String> topologicalSort(String filename) {
+		//Generate a graph from the file
+		Graph g = buildGraphFromDot(filename);
+		Map<String, Vertex> vertices = g.vertices();
+		  
+		//Check to make sure the graph is directed
+		if(!g.isDirected())
+			throw new UnsupportedOperationException("Graph is not directed.");
+		
+		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
+		List<Vertex> verticesAlreadyVisited = new ArrayList<Vertex>();
+		
+		//Add all "root vertices" to the queue
+		for(Map.Entry<String, Vertex> entry : vertices.entrySet()) {
+			Vertex v = entry.getValue();
+			if(v.getInDegree() == 0)
+				verticesToBeVisited.offer(v);
+		}
+		
+		//While there are more vertices to process,
+		//Tell each vertex's "children" that it has been visited
+		while(!verticesToBeVisited.isEmpty()) {
+			Vertex x = verticesToBeVisited.poll();
+			verticesAlreadyVisited.add(x);
+			
+			Iterator<Edge> iter = x.edges();
+			while(iter.hasNext()) {
+				Vertex w = iter.next().getNext();
+				w.setInDegree(w.getInDegree()-1);
+				if(w.getInDegree() == 0)
+					verticesToBeVisited.offer(w);
+			}
+		}
+		
+		//Output the sorted list
+		ArrayList<String> output = new ArrayList<>();
+		for(Vertex v : verticesAlreadyVisited) {
+			output.add(v.getName());
+		}
+		return output;
+    }
 
   /**
    * Performs a breadth-first search of a graph to determine the shortest path from a starting vertex to an ending vertex.
@@ -91,12 +128,8 @@ public class GraphUtil {
 			throw new UnsupportedOperationException("Vertices not in graph.");
 		if(!g.isDirected())
 			throw new UnsupportedOperationException("Graph is not directed.");
-		//Check to make sure that there is a path between the two vertices
-		if(!g.thereIsAPath(start, end))
-			return new ArrayList<String>();
 		
 		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
-		List<Vertex> verticesAlreadyVisited = new ArrayList<Vertex>();
 		
 		//Set distances from start to infinity
 		Iterator<String> iter = vertices.keySet().iterator();
@@ -106,25 +139,35 @@ public class GraphUtil {
 			vertices.get(s).setPrev(null);
 		}
 		
+		//Put our starting vertex into our queue of vertices to be processed
 		Vertex v = vertices.get(start);
 		v.setDistFromStart(0);
 		verticesToBeVisited.offer(v);
 		
+		//While we have more vertices to visit, visit them in order of their insertion (FIFO)
 		while(!verticesToBeVisited.isEmpty()) {
 			v = verticesToBeVisited.poll();
-			verticesAlreadyVisited.add(v);
-			if(!(v.getDistFromStart() == 0)) {
-				v.setDistFromStart(v.getPrev().getDistFromStart() + 1);
-			}
 			
 			Iterator<Edge> itr = v.edges();
+			Vertex v1;
 			while(itr.hasNext()) {
-				v = itr.next().getNext();
-				if(v.getName().equals(end)) {
-					
+				v1 = itr.next().getNext();
+				//If it would be faster to get to v1 through v, update the path
+				if(v1.getDistFromStart() > v.getDistFromStart() + 1) {
+					v1.setPrev(v);
+					verticesToBeVisited.offer(v1);
 				}
-				if(!verticesAlreadyVisited.contains(v))
-					verticesToBeVisited.offer(v);
+				//If we have found the end vertex, build a list and return it
+				if(v1.getName().equals(end)) {
+					ArrayList<String> arr = new ArrayList<String>();
+					Vertex ver = v1;
+					while(ver.getPrev() != null) {
+						arr.add(ver.getName());
+						ver = ver.getPrev();
+					}
+					Collections.reverse(arr);
+					return arr;
+				}
 			}
 		}
 		return new ArrayList<String>();

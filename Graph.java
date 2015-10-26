@@ -54,8 +54,11 @@ public class Graph {
 		}
 		//Add the edge(s) connecting them
 		vertex1.addEdge(vertex2);
-		if(!directed)
+		vertex2.setInDegree(vertex2.getInDegree()+1);
+		if(!directed) {
 			vertex2.addEdge(vertex1);
+			vertex1.setInDegree(vertex1.getInDegree()+1);
+		}
 	}
 	
 	/**
