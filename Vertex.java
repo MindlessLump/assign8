@@ -12,8 +12,9 @@ public class Vertex {
 	
 	private String name; //The name of the vertex
 	private LinkedList<Edge> adj; //The adjacency list of the edges that lead from this vertex
-	int distFromStart; //The distance from the vertex to the start (unweighted edges)
-	private Vertex prev; //The previous vertex for use in tracing shortest paths
+	private int distFromStart; //The distance from the vertex to the start (unweighted edges)
+	private Vertex prev; //The previous vertex for use in tracing paths in a breadth first search
+	private int inDegree; //The number of incoming edges for use in a topological sort
 	
 	/**
 	 * Creates a new Vertex with the given name.
@@ -22,7 +23,7 @@ public class Vertex {
 	public Vertex(String _name) {
 		name = _name;
 		adj = new LinkedList<>();
-		distFromStart = -1;
+		distFromStart = Integer.MAX_VALUE;
 		prev = null;
 	}
 	
@@ -91,5 +92,21 @@ public class Vertex {
 	 */
 	public Vertex getPrev() {
 		return prev;
+	}
+	
+	/**
+	 * Sets the number of incoming edges to the given number.
+	 * @param deg The new number of incoming edges.
+	 */
+	public void setInDegree(int deg) {
+		inDegree = deg;
+	}
+	
+	/**
+	 * Returns the number of edges pointing into this vertex.
+	 * @return The number of incoming edges, as an int.
+	 */
+	public int getInDegree() {
+		return inDegree;
 	}
 }

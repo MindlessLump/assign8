@@ -91,6 +91,9 @@ public class GraphUtil {
 			throw new UnsupportedOperationException("Vertices not in graph.");
 		if(!g.isDirected())
 			throw new UnsupportedOperationException("Graph is not directed.");
+		//Check to make sure that there is a path between the two vertices
+		if(!g.thereIsAPath(start, end))
+			return new ArrayList<String>();
 		
 		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
 		List<Vertex> verticesAlreadyVisited = new ArrayList<Vertex>();
@@ -99,7 +102,7 @@ public class GraphUtil {
 		Iterator<String> iter = vertices.keySet().iterator();
 		while(iter.hasNext()) {
 			String s = iter.next();
-			vertices.get(s).setDistFromStart(-1);
+			vertices.get(s).setDistFromStart(Integer.MAX_VALUE);
 			vertices.get(s).setPrev(null);
 		}
 		
