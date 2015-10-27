@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,7 +76,8 @@ public class GraphUtil {
 			throw new UnsupportedOperationException("Graph is not directed.");
 		
 		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
-		List<Vertex> verticesAlreadyVisited = new ArrayList<Vertex>();
+		// O(1) for contains()
+		HashSet<Vertex> verticesAlreadyVisited = new HashSet<Vertex>();
 		
 		//Add all "root vertices" to the queue
 		for(Map.Entry<String, Vertex> entry : vertices.entrySet()) {
