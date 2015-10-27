@@ -230,4 +230,79 @@ public class GraphTester {
 		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph4.dot", "u0", "u4"));
 		
 	}
+	
+	@Test
+	public void testBFS8() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("2");
+		ans.add("3");
+		ans.add("4");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph5.dot", "2", "4"));
+		
+	}
+	
+	@Test
+	public void testBFS9() {	
+		//No path
+		assertEquals(new ArrayList<String>(), GraphUtil.breadthFirstSearch("src/assign8/examplegraph5.dot", "5", "1"));
+	
+	}
+	
+	@Test
+	public void testBFS10() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("5");
+		ans.add("3");
+		ans.add("4");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph6.dot", "5", "4"));
+		
+	}
+	
+	@Test
+	public void testBFS11() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("1");
+		ans.add("2");
+		ans.add("7");
+		ans.add("5");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph6.dot", "1", "5"));
+		
+	}
+	
+	@Test
+	public void testBFS12() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("CS 1410");
+		ans.add("CS 2420");
+		ans.add("CS 3200*");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph7.dot", "CS 1410", "CS 3200*"));
+		
+	}
+	
+	@Test
+	public void testBFS13() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("MATH 2250");
+		ans.add("CS 3200*");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph7.dot", "MATH 2250", "CS 3200*"));
+		
+	}
+	
+	@Test
+	public void testBFS14() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("CS 2420");
+		ans.add("CS 3500");
+		ans.add("CS 3505");
+		ans.add("CS 4500");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph7.dot", "CS 2420", "CS 4500"));
+		
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testBFS15() {	
+		//Undirected graph
+		assertEquals(null, GraphUtil.breadthFirstSearch("src/assign8/examplegraph9.dot", "CS 2420", "CS 4500"));
+		
+	}
 }
