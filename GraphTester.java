@@ -162,4 +162,72 @@ public class GraphTester {
 		ans.add("B");
 		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph10.dot", "C", "B"));
 	}
+	
+	@Test
+	public void testBFS1() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("vertex 2");
+		ans.add("vertex 3");
+		ans.add("vertex 4");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph.dot", "vertex 2", "vertex 4"));
+		
+	}
+	
+	@Test
+	public void testBFS2() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("vertex 1");
+		ans.add("vertex 4");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph.dot", "vertex 1", "vertex 4"));
+		
+	}
+	
+	@Test
+	public void testBFS3() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("B");
+		ans.add("A");
+		ans.add("D");
+		ans.add("C");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph2.dot", "B", "C"));
+		
+	}
+	
+	@Test
+	public void testBFS4() {	
+		// No paths
+		assertEquals(new ArrayList<String>(), GraphUtil.breadthFirstSearch("src/assign8/examplegraph3.dot", "n1", "n5"));
+		assertEquals(new ArrayList<String>(), GraphUtil.breadthFirstSearch("src/assign8/examplegraph3.dot", "n1", "n3"));
+		assertEquals(new ArrayList<String>(), GraphUtil.breadthFirstSearch("src/assign8/examplegraph3.dot", "n0", "n5"));
+		
+	}
+	
+	@Test
+	public void testBFS5() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("n1");
+		ans.add("n0");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph3.dot", "n1", "n0"));
+		
+	}
+	
+	@Test
+	public void testBFS6() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("u2");
+		ans.add("u3");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph4.dot", "u2", "u3"));
+		
+	}
+	
+	@Test
+	public void testBFS7() {	
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("u0");
+		ans.add("u2");
+		ans.add("u3");
+		ans.add("u4");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph4.dot", "u0", "u4"));
+		
+	}
 }
