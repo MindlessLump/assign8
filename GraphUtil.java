@@ -135,6 +135,9 @@ public class GraphUtil {
 		if(!g.isDirected())
 			throw new UnsupportedOperationException("Graph is not directed.");
 		
+		if(start.equals(end))
+			return new ArrayList<String>();
+		
 		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
 		
 		//Set distances from start to infinity
@@ -158,13 +161,9 @@ public class GraphUtil {
 			Vertex v1;
 			while(itr.hasNext()) {
 				v1 = itr.next().getNext();
-				//If it would be faster to get to v1 through v, update the path
-				if(v1.getDistFromStart() > v.getDistFromStart() + 1) {
-					v1.setPrev(v);
-					verticesToBeVisited.offer(v1);
-				}
 				//If we have found the end vertex, build a list and return it
 				if(v1.getName().equals(end)) {
+					v1.setPrev(v);
 					ArrayList<String> arr = new ArrayList<String>();
 					Vertex ver = v1;
 					while(ver.getPrev() != null) {
@@ -175,6 +174,13 @@ public class GraphUtil {
 					Collections.reverse(arr);
 					return arr;
 				}
+				//If it would be faster to get to v1 through v, update the path
+				if(v1.getDistFromStart() > v.getDistFromStart() + 1) {
+					v1.setPrev(v);
+					v1.setDistFromStart(v.getDistFromStart() + 1);
+					verticesToBeVisited.offer(v1);
+				}
+				
 			}
 		}
 		return new ArrayList<String>();

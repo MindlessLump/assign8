@@ -2,6 +2,8 @@ package assign8;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 public class GraphTester {
@@ -81,4 +83,83 @@ public class GraphTester {
 		assertFalse(g.thereIsAPath("V6", "V1"));
 	}
 
+	@Test
+	public void testGraph() {
+		Graph g = new Graph();
+		assertTrue(g.isDirected());
+		
+		g.addEdge("1", "2");
+		assertTrue(g.thereIsAPath("1", "2"));
+		assertTrue(g.vertices().containsKey("1"));
+		assertTrue(g.vertices().containsKey("2"));
+		
+		g.setDirected(false);
+		assertFalse(g.isDirected());
+	}
+	
+	@Test
+	public void testVertex() {
+		Vertex v1 = new Vertex("Hello");
+		Vertex v2 = new Vertex("World");
+		assertEquals("Hello", v1.getName());
+		assertEquals("World", v2.getName());
+		
+		v1.addEdge(v2);
+		assertTrue(v1.edges().next().getNext().equals(v2));
+		assertEquals("Vertex Hello adjacent to World ", v1.toString());
+		
+		assertEquals(Integer.MAX_VALUE, v1.getDistFromStart());
+		assertEquals(Integer.MAX_VALUE, v2.getDistFromStart());
+		v1.setDistFromStart(18);
+		assertEquals(18, v1.getDistFromStart());
+		
+		assertNull(v1.getPrev());
+		assertNull(v2.getPrev());
+		v2.setPrev(v1);
+		assertEquals(v1, v2.getPrev());
+		
+		assertEquals(0, v1.getInDegree());
+		assertEquals(0, v2.getInDegree());
+		v2.setInDegree(4);
+		assertEquals(4, v2.getInDegree());
+	}
+	
+	@Test
+	public void testEdge() {
+		Vertex v = new Vertex("a");
+		Edge e = new Edge(v);
+		assertEquals(v, e.getNext());
+		
+		assertEquals("a", e.toString());
+	}
+	
+	@Test
+	public void sparseBreadthFirstSearch() {
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("San Diego");
+		ans.add("Salt Lake City");
+		ans.add("Atlanta");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph8.dot", "San Diego", "Atlanta"));
+		
+		ans.remove("Atlanta");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph8.dot", "San Diego", "Salt Lake City"));
+		
+		assertEquals(0, GraphUtil.breadthFirstSearch("src/assign8/examplegraph8.dot", "San Diego", "San Diego").size());
+	}
+	
+	@Test
+	public void denseBreadthFirstSearch() {
+		ArrayList<String> ans = new ArrayList<>();
+		ans.add("A");
+		ans.add("B");
+		ans.add("C");
+		ans.add("D");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph10.dot", "A", "D"));
+		
+		ans.clear();
+		ans.add("C");
+		ans.add("A");
+		ans.add("B");
+		assertEquals(ans, GraphUtil.breadthFirstSearch("src/assign8/examplegraph10.dot", "C", "B"));
+	}
 }

@@ -25,6 +25,7 @@ public class Vertex {
 		adj = new LinkedList<>();
 		distFromStart = Integer.MAX_VALUE;
 		prev = null;
+		inDegree = 0;
 	}
 	
 	/**
