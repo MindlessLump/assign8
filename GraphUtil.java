@@ -50,6 +50,9 @@ public class GraphUtil {
 		g.addEdge("7", "6");
 
 		g.generateDotFile("graph2.dot");
+			
+		System.out.println(GraphUtil.breadthFirstSearch("examplegraph8.dot", "San Diego", "Atlanta"));
+
 	}
 	
 
@@ -168,6 +171,7 @@ public class GraphUtil {
 						arr.add(ver.getName());
 						ver = ver.getPrev();
 					}
+					arr.add(ver.getName());
 					Collections.reverse(arr);
 					return arr;
 				}
