@@ -305,4 +305,16 @@ public class GraphTester {
 		assertEquals(null, GraphUtil.breadthFirstSearch("src/assign8/examplegraph9.dot", "CS 2420", "CS 4500"));
 		
 	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testTopoSort() {
+		// Cyclic
+		System.out.println(GraphUtil.topologicalSort("src/assign8/examplegraph.dot"));
+	}
+	
+	@Test
+	public void testTopoSort1() {
+		// Cyclic
+		System.out.println(GraphUtil.topologicalSort("src/assign8/examplegraph7.dot"));
+	}
 }
