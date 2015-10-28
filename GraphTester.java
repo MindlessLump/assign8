@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+/**
+* JUnit test class for our Graph and GraphUtil.
+* 
+* @author Erik Martin and Nick Porter
+*/
+
 public class GraphTester {
 
 	//Test ensures that invalid vertices return false
@@ -320,8 +326,8 @@ public class GraphTester {
 	
 	@Test
 	public void testTopoSort3() {
-		String ans = "[n1, n2, n3, n4, n5, n0]";
-		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph3.dot").toString());
+		//Ordering of first several don't matter.
+		assertEquals("n0", GraphUtil.topologicalSort("src/assign8/examplegraph3.dot").get(5));
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
@@ -344,8 +350,12 @@ public class GraphTester {
 	
 	@Test
 	public void testTopoSort7() {
+		//2 valid sorts
 		String ans = "[CS 1410, MATH 2250, CS 2420, CS 2100, CS 3200*, CS 3500, CS 3810, CS 3100*, CS 4150, CS 3505, CS 4400, CS 4500]";
-		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph7.dot").toString());
+		String ans1 = "[MATH 2250, CS 1410, CS 2420, CS 2100, CS 3200*, CS 3500, CS 3810, CS 3100*, CS 4150, CS 3505, CS 4400, CS 4500]";
+		boolean test = GraphUtil.topologicalSort("src/assign8/examplegraph7.dot").toString().equals(ans) || 
+				GraphUtil.topologicalSort("src/assign8/examplegraph7.dot").toString().equals(ans1); 
+		assertTrue(test);
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)

@@ -49,8 +49,8 @@ public class GraphTimer {
 						+ vertex[rand2] + "\"");
 			}
 		}
-		// Ensure that the graph builds downwards
-		else if (!cyclic) {
+		// Ensure that the graph builds downwards to avoid cycles
+		else {
 			int nextVert;
 			for (int j = 0; j < edgeScale; j++) {
 				for (int i = 0; i < numOfVerticies - 1; i++) {
