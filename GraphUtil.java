@@ -76,15 +76,14 @@ public class GraphUtil {
 			throw new UnsupportedOperationException("Graph is not directed.");
 		
 		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
-		// O(1) for contains()
 		ArrayList<Vertex> verticesAlreadyVisited = new ArrayList<>();
 		
-		//Add all "root vertices" to the queue
+		//Add all "root" vertices to the queue
 		for(Map.Entry<String, Vertex> entry : vertices.entrySet()) {
 			Vertex v = entry.getValue();
 			if(v.getInDegree() == 0)
 				verticesToBeVisited.offer(v);
-		}		
+		}
 		
 		//While there are more vertices to process,
 		//Tell each vertex's "children" that it has been visited

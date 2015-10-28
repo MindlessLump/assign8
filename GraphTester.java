@@ -320,7 +320,7 @@ public class GraphTester {
 	
 	@Test
 	public void testTopoSort3() {
-		String ans = "[n1, n5, n4, n3, n2, n0]";
+		String ans = "[n1, n2, n3, n4, n5, n0]";
 		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph3.dot").toString());
 	}
 	
@@ -344,7 +344,7 @@ public class GraphTester {
 	
 	@Test
 	public void testTopoSort7() {
-		String ans = "[MATH 2250, CS 1410, CS 2420, CS 2100, CS 3200*, CS 3500, CS 3810, CS 3100*, CS 4150, CS 3505, CS 4400, CS 4500]";
+		String ans = "[CS 1410, MATH 2250, CS 2420, CS 2100, CS 3200*, CS 3500, CS 3810, CS 3100*, CS 4150, CS 3505, CS 4400, CS 4500]";
 		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph7.dot").toString());
 	}
 	
