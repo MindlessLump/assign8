@@ -201,7 +201,7 @@ public class GraphUtil {
 	 *          -- name of the DOT file
 	 */
 	@SuppressWarnings("resource")
-	private static Graph buildGraphFromDot(String filename) {
+	public static Graph buildGraphFromDot(String filename) {
 		// creates a new, empty graph (CHANGE AS NEEDED)
 	    Graph g = new Graph();
 	
