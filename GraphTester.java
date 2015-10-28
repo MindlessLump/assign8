@@ -308,13 +308,19 @@ public class GraphTester {
 	
 	@Test(expected = UnsupportedOperationException.class)
 	public void testTopoSort() {
-		// Cyclic
-		System.out.println(GraphUtil.topologicalSort("src/assign8/examplegraph.dot"));
+		//Cyclic
+		GraphUtil.topologicalSort("src/assign8/examplegraph.dot");
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testTopoSort6() {
+		//Cyclic
+		GraphUtil.topologicalSort("src/assign8/examplegraph6.dot");
 	}
 	
 	@Test
-	public void testTopoSort1() {
-		// Cyclic
-		System.out.println(GraphUtil.topologicalSort("src/assign8/examplegraph7.dot"));
+	public void testTopoSort7() {
+		String ans = "[MATH 2250, CS 1410, CS 2420, CS 2100, CS 3200*, CS 3500, CS 3810, CS 3100*, CS 4150, CS 3505, CS 4400, CS 4500]";
+		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph7.dot").toString());
 	}
 }

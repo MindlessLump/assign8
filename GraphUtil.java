@@ -84,10 +84,7 @@ public class GraphUtil {
 			Vertex v = entry.getValue();
 			if(v.getInDegree() == 0)
 				verticesToBeVisited.offer(v);
-		}
-		//Make sure the graph is not cyclic
-		if(verticesToBeVisited.isEmpty())
-			throw new UnsupportedOperationException("Graph is cyclic.");
+		}		
 		
 		//While there are more vertices to process,
 		//Tell each vertex's "children" that it has been visited
@@ -104,6 +101,10 @@ public class GraphUtil {
 			}
 		}
 		
+		//Check if cyclic
+		if(verticesAlreadyVisited.size() != g.vertices().size()) {
+			throw new UnsupportedOperationException("Graph is cyclic.");
+		}
 		//Output the sorted list
 		ArrayList<String> output = new ArrayList<>();
 		for(Vertex v : verticesAlreadyVisited) {
