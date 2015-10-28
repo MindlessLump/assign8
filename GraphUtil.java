@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,7 +52,8 @@ public class GraphUtil {
 		g.generateDotFile("src/assign8/graph2.dot");
 			
 		System.out.println(GraphUtil.breadthFirstSearch("src/assign8/examplegraph8.dot", "San Diego", "Atlanta"));
-
+		
+		System.out.println(GraphUtil.topologicalSort("src/assign8/examplegraph3.dot"));
 	}
 	
 
@@ -77,7 +77,7 @@ public class GraphUtil {
 		
 		Queue<Vertex> verticesToBeVisited = new LinkedList<Vertex>();
 		// O(1) for contains()
-		HashSet<Vertex> verticesAlreadyVisited = new HashSet<Vertex>();
+		ArrayList<Vertex> verticesAlreadyVisited = new ArrayList<>();
 		
 		//Add all "root vertices" to the queue
 		for(Map.Entry<String, Vertex> entry : vertices.entrySet()) {
@@ -85,6 +85,9 @@ public class GraphUtil {
 			if(v.getInDegree() == 0)
 				verticesToBeVisited.offer(v);
 		}
+		//Make sure the graph is not cyclic
+		if(verticesToBeVisited.isEmpty())
+			throw new UnsupportedOperationException("Graph is cyclic.");
 		
 		//While there are more vertices to process,
 		//Tell each vertex's "children" that it has been visited
@@ -95,9 +98,6 @@ public class GraphUtil {
 			Iterator<Edge> iter = x.edges();
 			while(iter.hasNext()) {
 				Vertex w = iter.next().getNext();
-				//Make sure the graph is not cyclic
-				if(verticesAlreadyVisited.contains(w))
-					throw new UnsupportedOperationException("Graph is cyclic.");
 				w.setInDegree(w.getInDegree()-1);
 				if(w.getInDegree() == 0)
 					verticesToBeVisited.offer(w);
