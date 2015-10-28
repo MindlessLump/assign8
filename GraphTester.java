@@ -313,6 +313,30 @@ public class GraphTester {
 	}
 	
 	@Test(expected = UnsupportedOperationException.class)
+	public void testTopoSort2() {
+		//Cyclic
+		GraphUtil.topologicalSort("src/assign8/examplegraph2.dot");
+	}
+	
+	@Test
+	public void testTopoSort3() {
+		String ans = "[n1, n5, n4, n3, n2, n0]";
+		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph3.dot").toString());
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testTopoSort4() {
+		//Cyclic
+		GraphUtil.topologicalSort("src/assign8/examplegraph4.dot");
+	}
+	
+	@Test
+	public void testTopoSort5() {
+		String ans = "[1, 2, 3, 4, 5]";
+		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph5.dot").toString());
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
 	public void testTopoSort6() {
 		//Cyclic
 		GraphUtil.topologicalSort("src/assign8/examplegraph6.dot");
@@ -323,4 +347,17 @@ public class GraphTester {
 		String ans = "[MATH 2250, CS 1410, CS 2420, CS 2100, CS 3200*, CS 3500, CS 3810, CS 3100*, CS 4150, CS 3505, CS 4400, CS 4500]";
 		assertEquals(ans, GraphUtil.topologicalSort("src/assign8/examplegraph7.dot").toString());
 	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testTopoSort8() {
+		//Cyclic
+		GraphUtil.topologicalSort("src/assign8/examplegraph8.dot");
+	}
+	
+	@Test(expected = UnsupportedOperationException.class)
+	public void testTopoSort9() {
+		//Undirected & cyclic
+		GraphUtil.topologicalSort("src/assign8/examplegraph9.dot");
+	}
+	
 }
