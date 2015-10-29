@@ -2,198 +2,34 @@ package assign8;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Random;
 
 public class GraphTimer {
 
+	// Sample size controls
+	private static int startSize   = 1000;
+	private static int endSize     = 200000;
+	private static int stepSize    = 1000;
+	private static int timesToLoop = 100;
+	private static String file = "src/assign8/timergraph.dot";
+	
+	private static long startTime, midpointTime, stopTime;					// Timer variables
+	private static DecimalFormat formatter = new DecimalFormat("0000E0");	// Time string formatter
+	
 	public static void main(String[] args) {
-		String file = "src/assign8/timergraph.dot";
-		
-		//Experiment 1
-		System.out.println("Experiment 1: Acyclic Breadth First Search");
-		System.out.println("Problem size:\tTotal time:\tO(1)\tO(logN)\tO(N)\tO(NlogN)\tO(N^2)");
-		//Time breadth first search for an acyclic graph
-		for(int vertices = 10000; vertices <= 200000; vertices += 10000) {
-			//Prepare for the timing experiment
-			Random r = new Random();
-			generateDotFile(file, 2, vertices, false);
-			Graph g = GraphUtil.buildGraphFromDot(file);
-			Map<String, Vertex> m = g.vertices();
-			String start = m.get(r.nextInt(m.size())).getName();
-			String end = m.get(r.nextInt(m.size())).getName();
-			
-			//Make sure there is a path between the two random vertices
-			while(!g.thereIsAPath(start, end)) {
-				start = m.get(r.nextInt(m.size())).getName();
-				end = m.get(r.nextInt(m.size())).getName();
-			}
-			
-			//Do the timing
-			long bfsStart = System.nanoTime();
-			GraphUtil.breadthFirstSearch(file, start, end);
-			long bfsMid = System.nanoTime();
-			g = GraphUtil.buildGraphFromDot(file);
-			long bfsEnd = System.nanoTime();
-			
-			//Do the calculations
-			long total = (bfsMid - bfsStart) - (bfsEnd - bfsMid);
-			double totalTime = (double)total;
-			double probSize = (double)vertices;
-			double compare1 = totalTime;
-			double compareLogN = totalTime/(Math.log10(probSize)/Math.log10(2));
-			double compareN = totalTime/probSize;
-			double compareNlogN = totalTime/((Math.log10(probSize)/Math.log10(2))*probSize);
-			double compareNSquared = totalTime/(probSize*probSize);
-			
-			//Do the output
-			System.out.println(probSize + "\t" + totalTime + "\t" + compare1 + "\t" + compareLogN + "\t" + compareN
-					+ "\t" + compareNlogN + "\t" + compareNSquared);
-		}
-		
-		//Experiment 2
-		System.out.println("Experiment 2: Cyclic Breadth First Search");
-		System.out.println("Problem size:\tTotal time:\tO(1)\tO(logN)\tO(N)\tO(NlogN)\tO(N^2)");
-		//Time breadth first search on a cyclic graph
-		for(int vertices = 10000; vertices <= 200000; vertices += 10000) {
-			//Prepare for the timing experiment
-			Random r = new Random();
-			generateDotFile(file, 2, vertices, true);
-			Graph g = GraphUtil.buildGraphFromDot(file);
-			Map<String, Vertex> m = g.vertices();
-			String start = m.get(r.nextInt(m.size())).getName();
-			String end = m.get(r.nextInt(m.size())).getName();
-			
-			//Make sure there is a path between the two random vertices
-			while(!g.thereIsAPath(start, end)) {
-				start = m.get(r.nextInt(m.size())).getName();
-				end = m.get(r.nextInt(m.size())).getName();
-			}
-			
-			//Do the timing
-			long bfsStart = System.nanoTime();
-			GraphUtil.breadthFirstSearch(file, start, end);
-			long bfsMid = System.nanoTime();
-			g = GraphUtil.buildGraphFromDot(file);
-			long bfsEnd = System.nanoTime();
-			
-			//Do the calculations
-			long total = (bfsMid - bfsStart) - (bfsEnd - bfsMid);
-			double totalTime = (double)total;
-			double probSize = (double)vertices;
-			double compare1 = totalTime;
-			double compareLogN = totalTime/(Math.log10(probSize)/Math.log10(2));
-			double compareN = totalTime/probSize;
-			double compareNlogN = totalTime/((Math.log10(probSize)/Math.log10(2))*probSize);
-			double compareNSquared = totalTime/(probSize*probSize);
-			
-			//Do the output
-			System.out.println(probSize + "\t" + totalTime + "\t" + compare1 + "\t" + compareLogN + "\t" + compareN
-					+ "\t" + compareNlogN + "\t" + compareNSquared);
-		}
-		
-		//Experiment 3
-		System.out.println("Experiment 3: Acyclic Breadth First Search with Lots of Edges");
-		System.out.println("Problem size:\tTotal time:\tO(1)\tO(logN)\tO(N)\tO(NlogN)\tO(N^2)");
-		//Time breadth first search for an acyclic graph
-		for(int vertices = 10000; vertices <= 200000; vertices += 10000) {
-			//Prepare for the timing experiment
-			Random r = new Random();
-			generateDotFile(file, 6, vertices, false);
-			Graph g = GraphUtil.buildGraphFromDot(file);
-			Map<String, Vertex> m = g.vertices();
-			String start = m.get(r.nextInt(m.size())).getName();
-			String end = m.get(r.nextInt(m.size())).getName();
-			
-			//Make sure there is a path between the two random vertices
-			while(!g.thereIsAPath(start, end)) {
-				start = m.get(r.nextInt(m.size())).getName();
-				end = m.get(r.nextInt(m.size())).getName();
-			}
-			
-			//Do the timing
-			long bfsStart = System.nanoTime();
-			GraphUtil.breadthFirstSearch(file, start, end);
-			long bfsMid = System.nanoTime();
-			g = GraphUtil.buildGraphFromDot(file);
-			long bfsEnd = System.nanoTime();
-			
-			//Do the calculations
-			long total = (bfsMid - bfsStart) - (bfsEnd - bfsMid);
-			double totalTime = (double)total;
-			double probSize = (double)vertices;
-			double compare1 = totalTime;
-			double compareLogN = totalTime/(Math.log10(probSize)/Math.log10(2));
-			double compareN = totalTime/probSize;
-			double compareNlogN = totalTime/((Math.log10(probSize)/Math.log10(2))*probSize);
-			double compareNSquared = totalTime/(probSize*probSize);
-			
-			//Do the output
-			System.out.println(probSize + "\t" + totalTime + "\t" + compare1 + "\t" + compareLogN + "\t" + compareN
-					+ "\t" + compareNlogN + "\t" + compareNSquared);
-		}
-		
-		//Experiment 4
-		System.out.println("Experiment 4: Topological sort");
-		System.out.println("Problem size:\tTotal time:\tO(1)\tO(logN)\tO(N)\tO(NlogN)\tO(N^2)");
-		//Time the topological sort
-		for(int size = 10000; size <= 200000; size+= 10000) {
-			//Prepare for the timing experiment
-			generateDotFile(file, 2, size, false);
-			
-			//Do the timing
-			long bfsStart = System.nanoTime();
-			GraphUtil.topologicalSort(file);
-			long bfsMid = System.nanoTime();
-			Graph g = GraphUtil.buildGraphFromDot(file);
-			long bfsEnd = System.nanoTime();
-			
-			//Do the calculations
-			long total = (bfsMid - bfsStart) - (bfsEnd - bfsMid);
-			double totalTime = (double)total;
-			double probSize = (double)size;
-			double compare1 = totalTime;
-			double compareLogN = totalTime/(Math.log10(probSize)/Math.log10(2));
-			double compareN = totalTime/probSize;
-			double compareNlogN = totalTime/((Math.log10(probSize)/Math.log10(2))*probSize);
-			double compareNSquared = totalTime/(probSize*probSize);
-			
-			//Do the output
-			System.out.println(probSize + "\t" + totalTime + "\t" + compare1 + "\t" + compareLogN + "\t" + compareN
-					+ "\t" + compareNlogN + "\t" + compareNSquared);
-		}
-		
-		//Experiment 5
-		System.out.println("Experiment 5: Topological sort with lots of edges");
-		System.out.println("Problem size:\tTotal time:\tO(1)\tO(logN)\tO(N)\tO(NlogN)\tO(N^2)");
-		//Time the topological sort
-		for(int size = 10000; size <= 200000; size+= 10000) {
-			//Prepare for the timing experiment
-			generateDotFile(file, 6, size, false);
-			
-			//Do the timing
-			long bfsStart = System.nanoTime();
-			GraphUtil.topologicalSort(file);
-			long bfsMid = System.nanoTime();
-			Graph g = GraphUtil.buildGraphFromDot(file);
-			long bfsEnd = System.nanoTime();
-			
-			//Do the calculations
-			long total = (bfsMid - bfsStart) - (bfsEnd - bfsMid);
-			double totalTime = (double)total;
-			double probSize = (double)size;
-			double compare1 = totalTime;
-			double compareLogN = totalTime/(Math.log10(probSize)/Math.log10(2));
-			double compareN = totalTime/probSize;
-			double compareNlogN = totalTime/((Math.log10(probSize)/Math.log10(2))*probSize);
-			double compareNSquared = totalTime/(probSize*probSize);
-			
-			//Do the output
-			System.out.println(probSize + "\t" + totalTime + "\t" + compare1 + "\t" + compareLogN + "\t" + compareN
-					+ "\t" + compareNlogN + "\t" + compareNSquared);
-		}
+		printHeader("Experiment 1: Acyclic Breadth First Search");
+		experiment1();
+		printHeader("Experiment 2: Cyclic Breadth First Search");
+		experiment2();
+		printHeader("Experiment 3: Acyclic Breadth First Search With Edge Factor of 6");
+		experiment3();
+		printHeader("Experiment 4: Topological Sort");
+		experiment4();
+		printHeader("Experiment 5: Toplogical Sort With Edge Factor of 6");
+		experiment5();
 	}
-
 	/**
 	 * Generates a random dot file based on the given parameters.
 	 * Based on code from Lab 7.
@@ -251,6 +87,286 @@ public class GraphTimer {
 
 		out.println("}");
 		out.close();
+	}
+	
+	private static void experiment1() {
+		
+		for(int n = startSize; n <= endSize; n += stepSize) {
+			
+			Random r = new Random();
+			generateDotFile(file, 2, n, false);
+			Graph g = GraphUtil.buildGraphFromDot(file);
+			Map<String, Vertex> m = g.vertices();
+			
+			String startKey = "v" + r.nextInt(m.size());
+			String endKey = "v" + r.nextInt(m.size());
+			
+			String start = m.get(startKey).getName();
+			String end = m.get(endKey).getName();
+			
+			//Map is key/value, indexs can't be used.
+			
+			//Make sure there is a path between the two random vertices
+			while(!g.thereIsAPath(start, end)) {
+
+				startKey = "v" + r.nextInt(m.size());
+				endKey = "v" + r.nextInt(m.size());
+				
+				start = m.get(startKey).getName();
+				end = m.get(endKey).getName();
+			}
+			
+			System.out.print(n + "\t");
+
+			// First, spin computing stuff until one second has gone by.
+			// This allows this thread to stabilize.
+			startTime = System.nanoTime();
+			while(System.nanoTime() - startTime < 1000000000) { // empty block
+				;
+			}
+
+			// Start timing
+			startTime = System.nanoTime();
+
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.breadthFirstSearch(file, start, end);
+			}
+
+			midpointTime = System.nanoTime();
+
+			// Calculating overhead
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.buildGraphFromDot(file);
+			}
+
+			stopTime = System.nanoTime();
+
+			double averageTime = ((midpointTime - startTime) - (stopTime - midpointTime)) / timesToLoop;
+
+			System.out.println(formatter.format(averageTime) + "\t|\t"
+					+ formatter.format(averageTime / (Math.log10(n) / Math.log10(2))) + "\t\t"
+					+ formatter.format(averageTime / n) + "\t\t"
+					+ formatter.format(averageTime / (n * ((Math.log10(n) / Math.log10(2))))) + "\t\t"
+					+ formatter.format(averageTime / (n * n)) + "\t\t"
+					+ formatter.format(averageTime / (n * n * n)));	
+		}
+	}
+	
+	private static void experiment2() {
+		
+		for(int n = startSize; n <= endSize; n += stepSize) {
+			
+			Random r = new Random();
+			generateDotFile(file, 2, n, true);
+			Graph g = GraphUtil.buildGraphFromDot(file);
+			Map<String, Vertex> m = g.vertices();
+			
+			String startKey = "v" + r.nextInt(m.size());
+			String endKey = "v" + r.nextInt(m.size());
+			
+			String start = m.get(startKey).getName();
+			String end = m.get(endKey).getName();
+			
+			//Map is key/value, indexs can't be used.
+			
+			//Make sure there is a path between the two random vertices
+			while(!g.thereIsAPath(start, end)) {
+
+				startKey = "v" + r.nextInt(m.size());
+				endKey = "v" + r.nextInt(m.size());
+				
+				start = m.get(startKey).getName();
+				end = m.get(endKey).getName();
+			}
+			
+			System.out.print(n + "\t");
+
+			// First, spin computing stuff until one second has gone by.
+			// This allows this thread to stabilize.
+			startTime = System.nanoTime();
+			while(System.nanoTime() - startTime < 1000000000) { // empty block
+				;
+			}
+
+			// Start timing
+			startTime = System.nanoTime();
+
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.breadthFirstSearch(file, start, end);
+			}
+
+			midpointTime = System.nanoTime();
+
+			// Calculating overhead
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.buildGraphFromDot(file);
+			}
+
+			stopTime = System.nanoTime();
+
+			double averageTime = ((midpointTime - startTime) - (stopTime - midpointTime)) / timesToLoop;
+
+			System.out.println(formatter.format(averageTime) + "\t|\t"
+					+ formatter.format(averageTime / (Math.log10(n) / Math.log10(2))) + "\t\t"
+					+ formatter.format(averageTime / n) + "\t\t"
+					+ formatter.format(averageTime / (n * ((Math.log10(n) / Math.log10(2))))) + "\t\t"
+					+ formatter.format(averageTime / (n * n)) + "\t\t"
+					+ formatter.format(averageTime / (n * n * n)));	
+		}
+	}
+	
+	private static void experiment3() {
+		
+		for(int n = startSize; n <= endSize; n += stepSize) {
+			
+			Random r = new Random();
+			generateDotFile(file, 6, n, true);
+			Graph g = GraphUtil.buildGraphFromDot(file);
+			Map<String, Vertex> m = g.vertices();
+			
+			String startKey = "v" + r.nextInt(m.size());
+			String endKey = "v" + r.nextInt(m.size());
+			
+			String start = m.get(startKey).getName();
+			String end = m.get(endKey).getName();
+			
+			//Map is key/value, indexs can't be used.
+			
+			//Make sure there is a path between the two random vertices
+			while(!g.thereIsAPath(start, end)) {
+
+				startKey = "v" + r.nextInt(m.size());
+				endKey = "v" + r.nextInt(m.size());
+				
+				start = m.get(startKey).getName();
+				end = m.get(endKey).getName();
+			}
+			
+			System.out.print(n + "\t");
+
+			// First, spin computing stuff until one second has gone by.
+			// This allows this thread to stabilize.
+			startTime = System.nanoTime();
+			while(System.nanoTime() - startTime < 1000000000) { // empty block
+				;
+			}
+
+			// Start timing
+			startTime = System.nanoTime();
+
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.breadthFirstSearch(file, start, end);
+			}
+
+			midpointTime = System.nanoTime();
+
+			// Calculating overhead
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.buildGraphFromDot(file);
+			}
+
+			stopTime = System.nanoTime();
+
+			double averageTime = ((midpointTime - startTime) - (stopTime - midpointTime)) / timesToLoop;
+
+			System.out.println(formatter.format(averageTime) + "\t|\t"
+					+ formatter.format(averageTime / (Math.log10(n) / Math.log10(2))) + "\t\t"
+					+ formatter.format(averageTime / n) + "\t\t"
+					+ formatter.format(averageTime / (n * ((Math.log10(n) / Math.log10(2))))) + "\t\t"
+					+ formatter.format(averageTime / (n * n)) + "\t\t"
+					+ formatter.format(averageTime / (n * n * n)));	
+		}
+	}
+	
+	private static void experiment4() {
+		
+		for(int n = startSize; n <= endSize; n += stepSize) {
+			
+			generateDotFile(file, 2, n, false);	
+			
+			System.out.print(n + "\t");
+
+			// First, spin computing stuff until one second has gone by.
+			// This allows this thread to stabilize.
+			startTime = System.nanoTime();
+			while(System.nanoTime() - startTime < 1000000000) { // empty block
+				;
+			}
+
+			// Start timing
+			startTime = System.nanoTime();
+
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.topologicalSort(file);
+			}
+
+			midpointTime = System.nanoTime();
+
+			// Calculating overhead
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.buildGraphFromDot(file);
+			}
+
+			stopTime = System.nanoTime();
+
+			double averageTime = ((midpointTime - startTime) - (stopTime - midpointTime)) / timesToLoop;
+
+			System.out.println(formatter.format(averageTime) + "\t|\t"
+					+ formatter.format(averageTime / (Math.log10(n) / Math.log10(2))) + "\t\t"
+					+ formatter.format(averageTime / n) + "\t\t"
+					+ formatter.format(averageTime / (n * ((Math.log10(n) / Math.log10(2))))) + "\t\t"
+					+ formatter.format(averageTime / (n * n)) + "\t\t"
+					+ formatter.format(averageTime / (n * n * n)));	
+		}
+	}
+	
+	private static void experiment5() {
+		
+		for(int n = startSize; n <= endSize; n += stepSize) {
+			
+			generateDotFile(file, 6, n, false);	
+			
+			System.out.print(n + "\t");
+
+			// First, spin computing stuff until one second has gone by.
+			// This allows this thread to stabilize.
+			startTime = System.nanoTime();
+			while(System.nanoTime() - startTime < 1000000000) { // empty block
+				;
+			}
+
+			// Start timing
+			startTime = System.nanoTime();
+
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.topologicalSort(file);
+			}
+
+			midpointTime = System.nanoTime();
+
+			// Calculating overhead
+			for(int i = 0; i < timesToLoop; i++) {
+				GraphUtil.buildGraphFromDot(file);
+			}
+
+			stopTime = System.nanoTime();
+
+			double averageTime = ((midpointTime - startTime) - (stopTime - midpointTime)) / timesToLoop;
+
+			System.out.println(formatter.format(averageTime) + "\t|\t"
+					+ formatter.format(averageTime / (Math.log10(n) / Math.log10(2))) + "\t\t"
+					+ formatter.format(averageTime / n) + "\t\t"
+					+ formatter.format(averageTime / (n * ((Math.log10(n) / Math.log10(2))))) + "\t\t"
+					+ formatter.format(averageTime / (n * n)) + "\t\t"
+					+ formatter.format(averageTime / (n * n * n)));	
+		}
+	}
+	
+	private static void printHeader(String title) {
+		System.out.println("--------------------------  Timing Analysis: "+ title +" ---------------------------");
+		System.out.println("-------------------------------------------------------------------------------------------------");
+		System.out.println("N\tT(N)  \t|\tT(N)/logN\tT(N)/N\t\tT(N)/Nlog(N)\tT(N)/N^2\tT(N)/N^3");
+		System.out.println("-------------------------------------------------------------------------------------------------");
 	}
 	
 }
