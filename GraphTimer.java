@@ -9,16 +9,16 @@ import java.util.Random;
 public class GraphTimer {
 
 	// Sample size controls
-	private static int startSize   = 1000;
+	private static int startSize   = 10000;
 	private static int endSize     = 200000;
-	private static int stepSize    = 1000;
-	private static int timesToLoop = 100;
+	private static int stepSize    = 10000;
+	private static int timesToLoop = 10;
 	private static String file = "src/assign8/timergraph.dot";
 	
 	private static long startTime, midpointTime, stopTime;					// Timer variables
 	private static DecimalFormat formatter = new DecimalFormat("0000E0");	// Time string formatter
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NullPointerException {
 		printHeader("Experiment 1: Acyclic Breadth First Search");
 		experiment1();
 		printHeader("Experiment 2: Cyclic Breadth First Search");
@@ -164,10 +164,22 @@ public class GraphTimer {
 			String startKey = "v" + r.nextInt(m.size());
 			String endKey = "v" + r.nextInt(m.size());
 			
-			String start = m.get(startKey).getName();
-			String end = m.get(endKey).getName();
+			String start = "";
+			String end = "";
+			boolean found = false;
 			
-			//Map is key/value, indexs can't be used.
+			while(!found) {
+				try {
+					start = m.get(startKey).getName();
+					end = m.get(endKey).getName();
+					found = true;
+				} catch (NullPointerException e) {
+					startKey = "v" + r.nextInt(m.size());
+					endKey = "v" + r.nextInt(m.size());
+				}
+			}
+			
+			//Map is key/value, indices can't be used.
 			
 			//Make sure there is a path between the two random vertices
 			while(!g.thereIsAPath(start, end)) {
